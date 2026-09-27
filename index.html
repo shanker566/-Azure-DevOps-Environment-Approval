@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps Environment Approval Project</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #0078d4;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #107c10;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #dff6dd;
+            color: #107c10;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .status-card h2 {
+            color: #0078d4;
+            margin-bottom: 10px;
+        }
+
+        .version {
+            color: #6b7280;
+            margin-top: 10px;
+        }
+
+        .pipeline {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .pipeline h2 {
+            text-align: center;
+            color: #0078d4;
+            margin-bottom: 25px;
+        }
+
+        .stages {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stage {
+            background: #eef6fc;
+            border: 2px solid #0078d4;
+            color: #005a9e;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .stage.production {
+            background: #e8f5e9;
+            border-color: #107c10;
+            color: #107c10;
+        }
+
+        .arrow {
+            color: #0078d4;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .arrow {
+                display: none;
+            }
+
+            .stage {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>☁️ Azure DevOps Environment Approval</h1>
+    <p>CI/CD Pipeline Deployment Demonstration</p>
+</header>
+
+<div class="container">
+
+    <div class="status-card">
+        <div class="status">✓ DEPLOYMENT SUCCESSFUL</div>
+
+        <h2>Application Deployed Successfully</h2>
+
+        <p>
+            This application was deployed through an Azure DevOps CI/CD pipeline
+            with Production environment approval.
+        </p>
+
+        <p class="version">
+            Version 2.0 — Production Release
+        </p>
+    </div>
+
+    <div class="pipeline">
+
+        <h2>🚀 Deployment Pipeline</h2>
+
+        <div class="stages">
+
+            <div class="stage">
+                📦<br>
+                Build
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="stage">
+                🛠️<br>
+                Development
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="stage">
+                🧪<br>
+                Testing
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="stage">
+                🔐<br>
+                Approval
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="stage production">
+                🚀<br>
+                Production
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    Azure DevOps Pipeline with Environment Approvals<br>
+    Build → Development → Testing → Approval → Production
+</footer>
+
+</body>
+</html>

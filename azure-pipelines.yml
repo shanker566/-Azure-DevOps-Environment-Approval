@@ -1,0 +1,102 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  azureServiceConnection: 'devops-approval-azure'
+  webAppName: 'devops-approval-app'
+
+stages:
+
+- stage: Build
+  displayName: 'Build Application'
+  jobs:
+  - job: Build
+    steps:
+    - checkout: self
+
+    - script: |
+        echo "Building Azure DevOps application..."
+        test -f index.html
+      displayName: 'Build Application'
+
+- stage: Development
+  displayName: 'Development Deployment'
+  dependsOn: Build
+  jobs:
+  - deployment: DeployDevelopment
+    displayName: 'Deploy to Development'
+    environment: Development
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Azure Web App - Development'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              appType: 'webAppLinux'
+              appName: '$(webAppName)'
+              runtimeStack: 'PYTHON|3.11'
+              startUpCommand: 'python -m http.server 8000 --directory /home/site/wwwroot'
+              package: '$(Build.SourcesDirectory)'
+
+- stage: Testing
+  displayName: 'Testing Deployment'
+  dependsOn: Development
+  jobs:
+  - deployment: DeployTesting
+    displayName: 'Deploy to Testing'
+    environment: Testing
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - script: |
+              echo "Testing application..."
+              test -f index.html
+              grep -q "Azure DevOps Environment Approval Project" index.html
+            displayName: 'Test Application'
+
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Azure Web App - Testing'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              appType: 'webAppLinux'
+              appName: '$(webAppName)'
+              runtimeStack: 'PYTHON|3.11'
+              startUpCommand: 'python -m http.server 8000 --directory /home/site/wwwroot'
+              package: '$(Build.SourcesDirectory)'
+
+- stage: Production
+  displayName: 'Production Deployment'
+  dependsOn: Testing
+  jobs:
+  - deployment: DeployProduction
+    displayName: 'Deploy to Production'
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Azure Web App - Production'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              appType: 'webAppLinux'
+              appName: '$(webAppName)'
+              runtimeStack: 'PYTHON|3.11'
+              startUpCommand: 'python -m http.server 8000 --directory /home/site/wwwroot'
+              package: '$(Build.SourcesDirectory)'
+
+          - script: |
+              echo "Production deployment successful!"
+            displayName: 'Production Deployment'
